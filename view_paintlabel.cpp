@@ -6,8 +6,11 @@
 
 PaintLabel::PaintLabel(QWidget *parent): QLabel(parent)
 {
+    readyToPaintArrow=false;
     readyToPaintNeutron=false;
     readyToPaintNuclear=true;
+    arrowEnsure=false;
+    setMouseTracking(true);
 }
 
 
@@ -40,6 +43,16 @@ void PaintLabel::paintEvent(QPaintEvent* event)
 
         }
     }
+
+    if(readyToPaintArrow){
+        QPen pen;
+        pen.setStyle(Qt::DashDotLine);
+        pen.setColor(Qt::blue);
+        pen.setWidth(5);
+        painter.setPen(pen);
+        painter.drawLine(NeutronList[0].getX(),NeutronList[0].getY(),arrowTox,arrowToy);
+    }
+
 }
 
 
@@ -56,6 +69,7 @@ void PaintLabel::mousePressEvent(QMouseEvent *event){
 
         Nuclear nuclear(x,y);
         AtomList.push_back(nuclear);
+        NuclearList.push_back(nuclear);
         update();
     }
 
@@ -71,11 +85,38 @@ void PaintLabel::mousePressEvent(QMouseEvent *event){
         }
         else {
            AtomList.push_back(neutron);
+           NeutronList.push_back(neutron);
            this->setReadyToPaintNeutron(false);
            update();
         }
     }
 
+    else if(readyToPaintArrow){
+        arrowEnsure=true;
+    }
+
+
+
+
+
+}
+
+
+void PaintLabel::mouseMoveEvent(QMouseEvent *event)
+{
+
+    //设置箭头所向的坐标，方便paint画图
+    if(readyToPaintArrow){
+        int x=event->x();
+        int y=event->y();
+
+        //箭头未确定，所以可以改变
+        if(arrowEnsure==false){
+            setArrowTox(x);
+            setArrowToy(y);
+        }
+        update();
+    }
 }
 
 

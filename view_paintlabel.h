@@ -2,8 +2,8 @@
 #define VIEW_PAINTLABEL_H
 
 
-#define RADIUS_Nuclear 30
-#define RADIUS_Neutron 3
+#define RADIUS_Nuclear 15
+#define RADIUS_Neutron 8
 
 #include<QLabel>
 #include<QPainter>
@@ -31,20 +31,45 @@ public:
 
     void setReadyToPaintNeutron(bool is){ readyToPaintNeutron=is; }
     void setReadyToPaintNuclear(bool is){ readyToPaintNuclear=is; }
+    void setReadyToPaintArrow(bool is){ readyToPaintArrow=is; }
+    void setArrowTox(int x) { arrowTox=x;}
+    void setArrowToy(int y){ arrowToy=y;}
+
+
 
     //返回ready的状态
     bool getReadyToPaintNeutron(){return readyToPaintNeutron;}
     bool getReadyToPaintNuclear(){return readyToPaintNuclear;}
+    bool getReadyToPaintArrow(){return readyToPaintArrow;}
+    bool getArrowEnsure(){return arrowEnsure;}
+    int getArrowTox(){return arrowTox;}
+    int getArrowToy(){return arrowToy;}
+
 
     //鼠标点击事件
+    //鼠标移动事件
     void mousePressEvent(QMouseEvent *event);
-
+    void mouseMoveEvent(QMouseEvent *event);
 private:
     bool readyToPaintNeutron=false;
     bool readyToPaintNuclear=false;
+    bool readyToPaintArrow=false;
+    bool arrowEnsure=false;         //锁定箭头
 
+    int arrowTox;
+    int arrowToy;
+
+
+    vector<Nuclear> NuclearList;
+    vector<Neutron> NeutronList;
     vector<Atom> AtomList;
 };
 
 
 #endif // VIEW_PAINTLABEL_H
+
+
+
+
+
+

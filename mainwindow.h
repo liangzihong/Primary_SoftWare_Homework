@@ -27,11 +27,13 @@ public:
     void statementMessage();
 
     void tellPaintNuclear();
-
-
+    void tellPaintArrow();
+    void tellPaintNeutron();
 
 private slots:
     void on_nextstep_button_clicked();
+
+    void on_start_button_clicked();
 
 private:
     Ui::MainWindow *ui;
