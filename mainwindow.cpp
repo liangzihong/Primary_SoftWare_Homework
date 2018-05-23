@@ -142,11 +142,14 @@ void MainWindow::on_nextstep_button_clicked()
 
 void MainWindow::on_start_button_clicked()
 {
+
+    //收起箭头,开始移动
      if(ui->paintlabel->getArrowEnsure()){
 
          ui->paintlabel->setReadyToPaintArrow(false);
          ui->paintlabel->update();
 
+         ui->paintlabel->startMove();
      }
 }
 
