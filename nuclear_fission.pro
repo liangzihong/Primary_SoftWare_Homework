@@ -20,6 +20,7 @@ HEADERS  += mainwindow.h \
     view_paintlabel.h \
     atom.h \
     neutron.h \
-    nuclear.h
+    nuclear.h \
+    about_math.h
 
 FORMS    += mainwindow.ui

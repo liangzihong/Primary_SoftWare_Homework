@@ -1,3 +1,4 @@
+void on_nextstep_button_clicked();
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -28,6 +29,9 @@ public:
     void tellPaintNuclear();
 
 
+
+private slots:
+    void on_nextstep_button_clicked();
 
 private:
     Ui::MainWindow *ui;

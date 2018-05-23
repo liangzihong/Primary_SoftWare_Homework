@@ -54,7 +54,10 @@ void MainWindow::statementMessage(){
 
 
 
-
+/**
+ * @brief MainWindow::tellPaintNuclear
+ * 告诉使用者现在可以 画原子核
+ */
 void MainWindow::tellPaintNuclear(){
     msg=new QMessageBox();
     QString content="现在需要你在屏幕中点击你想创建的原子核的个数和位置\n点击完成后按下一步";
@@ -62,10 +65,44 @@ void MainWindow::tellPaintNuclear(){
     msg->exec();
 
     delete msg;
-    ui->paintlabel->setReadyToPaintNeutron(true);
     ui->paintlabel->update();
 
 }
+
+
+
+
+
+
+
+/**
+ * @brief MainWindow::on_nextstep_button_clicked
+ * 这里是nextstep的响应事件，用来控制 PaintLabel，决定能否通过点击屏幕产生事件
+ */
+void MainWindow::on_nextstep_button_clicked()
+{
+    msg=new QMessageBox();
+    QString content="现在在屏幕中点击一下，代表初始中子的位置\n注意中子的位置不能与各个原子核有交集\n如果重合则无法显示";
+    msg->setText(content);
+    msg->exec();
+
+    delete msg;
+
+    bool readyNuclear= ui->paintlabel->getReadyToPaintNuclear();
+    bool readyNeutron= ui->paintlabel->getReadyToPaintNeutron();
+
+    if(readyNuclear){
+        readyNuclear=false;
+        ui->paintlabel->setReadyToPaintNuclear(false);
+        ui->paintlabel->setReadyToPaintNeutron(true);
+    }
+    else if(readyNeutron){
+        readyNeutron=false;
+        ui->paintlabel->setReadyToPaintNeutron(false);
+    }
+}
+
+
 
 
 
