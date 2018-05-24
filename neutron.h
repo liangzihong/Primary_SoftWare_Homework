@@ -7,13 +7,13 @@
 using namespace std;
 
 #define PI 3.14159265
-#define NORMAL_SPEED 3
-#define SPEED_OF_TIME 3
+#define NORMAL_SPEED 1
+#define SPEED_OF_TIME 20
 #define XLEFT_LIMIT 0
-#define XRIGHT_LIMIT 1000
-#define YDOWN_LIMIT 700
+#define XRIGHT_LIMIT 1500
+#define YDOWN_LIMIT 1000
 #define YUP_LIMIT 0
-
+#define SPLIT_NUMBER 1
 
 class Neutron:public Atom
 {
@@ -78,8 +78,12 @@ private:
 public:
 
 
-    Neutron(int x,int y):Atom(0,x,y){ speed=NORMAL_SPEED;collisionTag=0;}
+    Neutron(int x,int y):Atom(0,x,y) {
+        speed=NORMAL_SPEED;
+        collisionTag=0;
+    }
 
+    //移动的函数
     void move()
     {
         //speed=NORMAL_SPEED;
@@ -130,13 +134,36 @@ public:
 
     }
 
-    void splitThree();
+
+    //返回分身的两个
+    //暂时修改后只要一个就够了，  3太夸张
+    vector<Neutron> splitThree()
+    {
+        Neutron one(x,y);
+        double angle1=angle+30;
+        if(angle1>360)
+            angle1=angle1-360;
+        one.setAngle(angle1);
+
+        Neutron two(x,y);
+        double angle2=angle-30;
+        if(angle2<0)
+            angle2=angle2+360;
+        two.setAngle(angle2);
+
+        vector<Neutron> arr;
+        Neutron fuck(x,y);
+        fuck.setAngle(angle);
+        arr.push_back(fuck);
+        //arr.push_back(one);
+        return arr;
+    }
 
 
 
 
     int getAngle(){return angle;}
-    void setAngle(int angle){ this->angle=angle;}
+    void setAngle(double angle){ this->angle=angle;}
     void setAngle(int arrowx,int arrowy)
     {
         double k= double(arrowy-y)/double(arrowx-x);

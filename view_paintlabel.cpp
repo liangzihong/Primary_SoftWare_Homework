@@ -79,13 +79,15 @@ void PaintLabel::paintEvent(QPaintEvent* event)
 
 
         //再画中子
-        Neutron tmp1=NeutronList[0];
-        tmp1.move();
-        NeutronList[0]=tmp1;
+        //Neutron tmp1=NeutronList[0];
+        //tmp1.move();
+        //NeutronList[0]=tmp1;
         //NeutronList.push_back(tmp1);
         for(int i=0;i< NeutronList.size();i++)
         {
             Neutron tmp=NeutronList[i];
+            tmp.move();
+            NeutronList[i]=tmp;
             int x=tmp.getX();
             int y=tmp.getY();
             painter.setBrush(Qt::blue);
@@ -106,6 +108,17 @@ void PaintLabel::paintEvent(QPaintEvent* event)
                     ExplosiveList.push_back(nuclear);
                     NuclearList.erase(NuclearList.begin()+i);
                     i--;     //因为消除了这个，vector后面的会补上来
+
+                    vector<Neutron> arr = netron.splitThree();
+
+                    for(int z=0;z<SPLIT_NUMBER;z++){
+                        NeutronList.push_back(arr[z]);
+                    }
+
+
+
+                    //QMessageBox::warning(this,"debug",tr(("原来的为%1，后来的为%2"))
+                    //       .arg(QString::number(netron.getSpeed()),QString::number(arr[0].getSpeed())) ,QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Ok);
                     break;
                 }
             }
@@ -119,7 +132,7 @@ void PaintLabel::paintEvent(QPaintEvent* event)
             int y=explosive.getY();
 
             painter.setBrush(Qt::green);
-            painter.drawEllipse(x-RADIUS_Nuclear,y-RADIUS_Nuclear,2*RADIUS_Nuclear,2*RADIUS_Nuclear);
+            painter.drawEllipse(x-5*RADIUS_Nuclear,y-5*RADIUS_Nuclear,10*RADIUS_Nuclear,10*RADIUS_Nuclear);
         }
         ExplosiveList.clear();
 
