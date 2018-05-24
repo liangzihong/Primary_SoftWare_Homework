@@ -8,8 +8,8 @@
 using namespace std;
 
 #define PI 3.14159265
-#define NORMAL_SPEED 20
-#define SPEED_OF_TIME 20
+#define NORMAL_SPEED 3
+#define SPEED_OF_TIME 3
 #define XLEFT_LIMIT 0
 #define XRIGHT_LIMIT 1000
 #define YDOWN_LIMIT 700
@@ -21,10 +21,12 @@ class Neutron:public Atom
 private:
     double angle;
     int speed;
+    int collisionTag;    //用来记作上一次碰撞是哪一面，不能出现 撞完弹走之后还在撞
 public:
 
 
-    Neutron(int x,int y):Atom(0,x,y){}
+    Neutron(int x,int y):Atom(0,x,y){ collisionTag=0;}
+
     void move()
     {
         speed=NORMAL_SPEED;
@@ -93,22 +95,34 @@ public:
         //碰到y的up边界  y==0
         else if( y-RADIUS_Neutron <= YUP_LIMIT )
         {
-            angle= 360-angle;
+            if(collisionTag!=1) {
+                angle= 360-angle;
+                collisionTag=1;
+            }
         }
         //碰到y的down边界  y==700
         else if( y+RADIUS_Neutron >=YDOWN_LIMIT)
         {
-            angle=360-angle;
+            if(collisionTag!=2){
+                angle=360-angle;
+                collisionTag=2;
+            }
         }
         //碰到x的left边界  x==0
         else if( x-RADIUS_Neutron<=XLEFT_LIMIT)
         {
-            angle=540-angle;
+            if(collisionTag!=3){
+                angle=540-angle;
+                collisionTag=3;
+            }
         }
         //碰到x的right边界   x==1000
         else if( x+RADIUS_Neutron>= XRIGHT_LIMIT)
         {
-            angle=540-angle;
+            if(collisionTag!=4){
+                angle=540-angle;
+                collisionTag=4;
+            }
         }
 
         while(angle>360)
