@@ -22,25 +22,48 @@ public:
     void move()
     {
         speed=NORMAL_SPEED;
-        int deltay= speed * sin(angle * PI /180);
-        int deltax= speed * cos(angle * PI /180);
+        double deltay= sin(angle * PI /180);
+        double deltax= cos(angle * PI /180);
 
-        int tmpy=abs(deltay);
-        int tmpx=abs(deltax);
+        double tmpy=abs(deltay);
+        double tmpx=abs(deltax);
         double k;
-        if(tmpy>tmpx)
-        {
-            k=(double)tmpy/tmpx;
-        }
-        else{
-            k=(double)tmpx/tmpy;
+
+
+        //判断
+        if(tmpy>=0.05 && tmpx>=0.05) {
+            if(tmpy>tmpx)
+            {
+                k=(double)tmpy/tmpx;
+                deltax=deltax / tmpx;     //绝对值小的那个变成 符号不变的单位1
+                deltay=deltay/tmpy * k; //绝对值大的那个变成符号不变的 单位k
+            }
+            else{
+                k=(double)tmpx/tmpy;
+                deltay=deltay/tmpy;
+                deltax=deltax/ tmpx *k;
+            }
         }
 
+
+        else{
+            if(tmpy<0.05 && tmpx>=0.05) {
+                deltay=0;
+                while(abs(deltax)<2)
+                    deltax=deltax*2;
+            }
+            else if(tmpx<0.05 && tmpy>=0.05){
+                deltax=0;
+                while(abs(deltay)<2)
+                    deltay=deltay*2;
+            }
+
+        }
 
         //TODO:把deltax和deltay变成按比例
 
-        x=x+deltax;
-        y=y+deltay;
+        x=x+deltax*speed;
+        y=y+deltay*speed;
 
     }
     bool isHitNuclear( vector<Nuclear> nuclear);

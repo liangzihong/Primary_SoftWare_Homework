@@ -90,8 +90,8 @@ void PaintLabel::paintEvent(QPaintEvent* event)
             painter.drawEllipse(x-RADIUS_Neutron,y-RADIUS_Neutron,2*RADIUS_Neutron,2*RADIUS_Neutron);
 
 
-            //QMessageBox::warning(this,"debug",tr(("angle为%1"))
-            //       .arg(QString::number(tmp.getAngle())) ,QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Ok);
+            QMessageBox::warning(this,"debug",tr(("angle为%1"))
+                   .arg(QString::number(tmp.getAngle())) ,QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Ok);
 
 
             //tr("移動到：(%1, %2)")).arg(QString::number(event->x()), QString::number(event->y())
