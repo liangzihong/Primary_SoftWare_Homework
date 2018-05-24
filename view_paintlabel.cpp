@@ -62,7 +62,7 @@ void PaintLabel::paintEvent(QPaintEvent* event)
         Neutron tmp1=NeutronList[0];
         tmp1.move();
         NeutronList[0]=tmp1;
-        NeutronList.push_back(tmp1);
+        //NeutronList.push_back(tmp1);
         for(int i=0;i< NeutronList.size();i++){
                     Neutron tmp=NeutronList[i];
                     int x=tmp.getX();

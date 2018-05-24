@@ -8,7 +8,13 @@
 using namespace std;
 
 #define PI 3.14159265
-#define NORMAL_SPEED 2
+#define NORMAL_SPEED 20
+#define SPEED_OF_TIME 20
+#define XLEFT_LIMIT 0
+#define XRIGHT_LIMIT 1000
+#define YDOWN_LIMIT 700
+#define YUP_LIMIT 0
+
 
 class Neutron:public Atom
 {
@@ -49,12 +55,12 @@ public:
         else{
             if(tmpy<0.05 && tmpx>=0.05) {
                 deltay=0;
-                while(abs(deltax)<2)
+                while(abs(deltax)<speed)
                     deltax=deltax*2;
             }
             else if(tmpx<0.05 && tmpy>=0.05){
                 deltax=0;
-                while(abs(deltay)<2)
+                while(abs(deltay)<speed)
                     deltay=deltay*2;
             }
 
@@ -65,12 +71,53 @@ public:
         x=x+deltax*speed;
         y=y+deltay*speed;
 
+        collision();
+
     }
     bool isHitNuclear( vector<Nuclear> nuclear);
     void paintExplosion( vector<Nuclear> nuclear);
     void splitThree();
 
 
+    //碰撞边界的话，直接改变angle
+    void collision()
+    {
+
+        if( y-RADIUS_Neutron <= YUP_LIMIT &&  x-RADIUS_Neutron<=XLEFT_LIMIT ||
+                y-RADIUS_Neutron <= YUP_LIMIT && x+RADIUS_Neutron>= XRIGHT_LIMIT ||
+                y+RADIUS_Neutron >=YDOWN_LIMIT && x-RADIUS_Neutron<=XLEFT_LIMIT ||
+                y+RADIUS_Neutron >=YDOWN_LIMIT && x+RADIUS_Neutron>= XRIGHT_LIMIT)
+        {
+                 angle=angle+180;
+        }
+        //碰到y的up边界  y==0
+        else if( y-RADIUS_Neutron <= YUP_LIMIT )
+        {
+            angle= 360-angle;
+        }
+        //碰到y的down边界  y==700
+        else if( y+RADIUS_Neutron >=YDOWN_LIMIT)
+        {
+            angle=360-angle;
+        }
+        //碰到x的left边界  x==0
+        else if( x-RADIUS_Neutron<=XLEFT_LIMIT)
+        {
+            angle=540-angle;
+        }
+        //碰到x的right边界   x==1000
+        else if( x+RADIUS_Neutron>= XRIGHT_LIMIT)
+        {
+            angle=540-angle;
+        }
+
+        while(angle>360)
+            angle=angle-360;
+        while(angle<=0)
+            angle=angle+360;
+
+
+    }
 
 
     int getAngle(){return angle;}

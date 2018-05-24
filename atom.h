@@ -2,6 +2,9 @@
 #define ATOM_H
 
 
+#define RADIUS_Nuclear 15
+#define RADIUS_Neutron 8
+
 class Atom{
 protected:
     int type;

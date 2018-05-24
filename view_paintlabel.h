@@ -3,9 +3,7 @@
 
 
 
-#define RADIUS_Nuclear 15
-#define RADIUS_Neutron 8
-#define SPEED_OF_TIME 30
+
 
 
 #include<QTimer>
