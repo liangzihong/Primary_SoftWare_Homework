@@ -60,11 +60,34 @@ public:
     void setIsMoving(bool is){isMoving=is;}
     bool getIsMoving(){return isMoving;}
 
+
+    //全部清0过程
+    void reset()
+    {
+
+        readyToPaintArrow=false;
+        readyToPaintNeutron=false;
+        readyToPaintNuclear=true;
+        arrowEnsure=false;
+        NuclearList.clear();
+        NeutronList.clear();
+        AtomList.clear();
+        ExplosiveList.clear();
+        isMoving=false;
+        if(timer!=NULL)
+        {
+            delete timer;
+            timer=NULL;
+        }
+        update();
+    }
+
+
 private:
 
     //初始化的状态
     bool readyToPaintNeutron=false;
-    bool readyToPaintNuclear=false;
+    bool readyToPaintNuclear=true;
     bool readyToPaintArrow=false;
     bool arrowEnsure=false;         //锁定箭头
     int arrowTox;

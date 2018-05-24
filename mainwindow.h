@@ -35,6 +35,8 @@ private slots:
 
     void on_start_button_clicked();
 
+    void on_start_button_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMessageBox *msg;

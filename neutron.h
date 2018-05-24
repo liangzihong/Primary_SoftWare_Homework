@@ -11,7 +11,7 @@ using namespace std;
 #define SPEED_OF_TIME 20
 #define XLEFT_LIMIT 0
 #define XRIGHT_LIMIT 1500
-#define YDOWN_LIMIT 1000
+#define YDOWN_LIMIT 800
 #define YUP_LIMIT 0
 #define SPLIT_NUMBER 1
 
@@ -152,10 +152,7 @@ public:
         two.setAngle(angle2);
 
         vector<Neutron> arr;
-        Neutron fuck(x,y);
-        fuck.setAngle(angle);
-        arr.push_back(fuck);
-        //arr.push_back(one);
+        arr.push_back(one);
         return arr;
     }
 

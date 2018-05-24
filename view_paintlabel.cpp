@@ -12,7 +12,6 @@ PaintLabel::PaintLabel(QWidget *parent): QLabel(parent)
     arrowEnsure=false;
     setMouseTracking(true);
 
-    timer=new QTimer(this);
     isMoving=false;
 }
 
@@ -213,6 +212,7 @@ void PaintLabel::mousePressEvent(QMouseEvent *event){
 
     else if(readyToPaintArrow){
         arrowEnsure=true;
+        QMessageBox::warning(this,tr("开始"),tr("现在请按开始按钮开始实验"),QMessageBox::Ok);
     }
 
 
@@ -246,6 +246,7 @@ void PaintLabel::mouseMoveEvent(QMouseEvent *event)
 //开始移动了
 void PaintLabel::startMove()
 {
+    timer=new QTimer(this);
     NeutronList[0].setAngle(arrowTox,arrowToy);
     setIsMoving(true);
     connect(timer,SIGNAL(timeout()),this,SLOT(myselfUpdate()));

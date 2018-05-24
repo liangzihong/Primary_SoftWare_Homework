@@ -160,10 +160,12 @@ void MainWindow::on_start_button_clicked()
 
 
 
-
-
-
-
+//恢复，恢复到放置 原子核状态
+void MainWindow::on_start_button_2_clicked()
+{
+    ui->paintlabel->reset();
+    welcomeMessage();
+}
 
 
 
