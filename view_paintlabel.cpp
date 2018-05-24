@@ -28,6 +28,8 @@ PaintLabel::PaintLabel(QWidget *parent): QLabel(parent)
 void PaintLabel::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
+
+    //初始化状态
     if(isMoving==false) {
         for(int i=0;i<AtomList.size();i++){
             Atom atom = AtomList[i];
@@ -58,21 +60,73 @@ void PaintLabel::paintEvent(QPaintEvent* event)
         }
     }
 
+
+
+    //运动状态
     else{
+
+
+        //先画原子核
+        for(int i=0;i<NuclearList.size();i++){
+            Nuclear tmp=NuclearList[i];
+            int x=tmp.getX();
+            int y=tmp.getY();
+            painter.setBrush(Qt::yellow);
+            painter.drawEllipse(x-RADIUS_Nuclear,y-RADIUS_Nuclear,2*RADIUS_Nuclear,2*RADIUS_Nuclear);
+        }
+
+
+
+
+        //再画中子
         Neutron tmp1=NeutronList[0];
         tmp1.move();
         NeutronList[0]=tmp1;
         //NeutronList.push_back(tmp1);
-        for(int i=0;i< NeutronList.size();i++){
-                    Neutron tmp=NeutronList[i];
-                    int x=tmp.getX();
-                    int y=tmp.getY();
-                    painter.setBrush(Qt::blue);
-                    painter.drawEllipse(x-RADIUS_Neutron,y-RADIUS_Neutron,2*RADIUS_Neutron,2*RADIUS_Neutron);
+        for(int i=0;i< NeutronList.size();i++)
+        {
+            Neutron tmp=NeutronList[i];
+            int x=tmp.getX();
+            int y=tmp.getY();
+            painter.setBrush(Qt::blue);
+            painter.drawEllipse(x-RADIUS_Neutron,y-RADIUS_Neutron,2*RADIUS_Neutron,2*RADIUS_Neutron);
+        }
 
 
 
+        //再画爆炸
+        for(int i=0;i< NuclearList.size();i++)
+        {
+            Nuclear nuclear=NuclearList[i];
+            for(int j=0;j<NeutronList.size();j++)
+            {
+                Neutron netron=NeutronList[j];
+                if(nuclear.isHitByNeutron(netron)==true)
+                {
+                    ExplosiveList.push_back(nuclear);
+                    NuclearList.erase(NuclearList.begin()+i);
+                    i--;     //因为消除了这个，vector后面的会补上来
+                    break;
                 }
+            }
+
+        }
+
+        for(int i=0;i<ExplosiveList.size();i++)
+        {
+            Atom explosive=ExplosiveList[i];
+            int x=explosive.getX();
+            int y=explosive.getY();
+
+            painter.setBrush(Qt::green);
+            painter.drawEllipse(x-RADIUS_Nuclear,y-RADIUS_Nuclear,2*RADIUS_Nuclear,2*RADIUS_Nuclear);
+        }
+        ExplosiveList.clear();
+
+
+
+
+
 
 
 
@@ -97,13 +151,7 @@ void PaintLabel::paintEvent(QPaintEvent* event)
             //tr("移動到：(%1, %2)")).arg(QString::number(event->x()), QString::number(event->y())
         }*/
 
-        for(int i=0;i<NuclearList.size();i++){
-            Nuclear tmp=NuclearList[i];
-            int x=tmp.getX();
-            int y=tmp.getY();
-            painter.setBrush(Qt::yellow);
-            painter.drawEllipse(x-RADIUS_Nuclear,y-RADIUS_Nuclear,2*RADIUS_Nuclear,2*RADIUS_Nuclear);
-        }
+
 
 
 

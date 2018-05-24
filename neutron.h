@@ -2,7 +2,6 @@
 #define NEUTRON_H
 
 #include"atom.h"
-#include"nuclear.h"
 #include<math.h>
 #include<vector>
 using namespace std;
@@ -22,63 +21,6 @@ private:
     double angle;
     int speed;
     int collisionTag;    //用来记作上一次碰撞是哪一面，不能出现 撞完弹走之后还在撞
-public:
-
-
-    Neutron(int x,int y):Atom(0,x,y){ collisionTag=0;}
-
-    void move()
-    {
-        speed=NORMAL_SPEED;
-        double deltay= sin(angle * PI /180);
-        double deltax= cos(angle * PI /180);
-
-        double tmpy=abs(deltay);
-        double tmpx=abs(deltax);
-        double k;
-
-
-        //判断
-        if(tmpy>=0.05 && tmpx>=0.05) {
-            if(tmpy>tmpx)
-            {
-                k=(double)tmpy/tmpx;
-                deltax=deltax / tmpx;     //绝对值小的那个变成 符号不变的单位1
-                deltay=deltay/tmpy * k; //绝对值大的那个变成符号不变的 单位k
-            }
-            else{
-                k=(double)tmpx/tmpy;
-                deltay=deltay/tmpy;
-                deltax=deltax/ tmpx *k;
-            }
-        }
-
-
-        else{
-            if(tmpy<0.05 && tmpx>=0.05) {
-                deltay=0;
-                while(abs(deltax)<speed)
-                    deltax=deltax*2;
-            }
-            else if(tmpx<0.05 && tmpy>=0.05){
-                deltax=0;
-                while(abs(deltay)<speed)
-                    deltay=deltay*2;
-            }
-
-        }
-
-        //TODO:把deltax和deltay变成按比例
-
-        x=x+deltax*speed;
-        y=y+deltay*speed;
-
-        collision();
-
-    }
-    bool isHitNuclear( vector<Nuclear> nuclear);
-    void paintExplosion( vector<Nuclear> nuclear);
-    void splitThree();
 
 
     //碰撞边界的话，直接改变angle
@@ -132,6 +74,65 @@ public:
 
 
     }
+
+public:
+
+
+    Neutron(int x,int y):Atom(0,x,y){ speed=NORMAL_SPEED;collisionTag=0;}
+
+    void move()
+    {
+        //speed=NORMAL_SPEED;
+        double deltay= sin(angle * PI /180);
+        double deltax= cos(angle * PI /180);
+
+        double tmpy=abs(deltay);
+        double tmpx=abs(deltax);
+        double k;
+
+
+        //判断有没有 绝对值近似于0的，如果有近似于0的，则不能用这些方式来搞，要用else的那个
+        if(tmpy>=0.05 && tmpx>=0.05) {
+            if(tmpy>tmpx)
+            {
+                k=(double)tmpy/tmpx;
+                deltax=deltax / tmpx;     //绝对值小的那个变成 符号不变的单位1
+                deltay=deltay/tmpy * k; //绝对值大的那个变成符号不变的 单位k
+            }
+            else{
+                k=(double)tmpx/tmpy;
+                deltay=deltay/tmpy;
+                deltax=deltax/ tmpx *k;
+            }
+        }
+
+        //如果有近似于0的，要把不为0的那个调整为speed的速度
+        else{
+            if(tmpy<0.05 && tmpx>=0.05) {
+                deltay=0;
+                while(abs(deltax)<speed)
+                    deltax=deltax*2;
+            }
+            else if(tmpx<0.05 && tmpy>=0.05){
+                deltax=0;
+                while(abs(deltay)<speed)
+                    deltay=deltay*2;
+            }
+
+        }
+
+        //TODO:把deltax和deltay变成按比例
+
+        x=x+deltax*speed;
+        y=y+deltay*speed;
+
+        collision();
+
+    }
+
+    void splitThree();
+
+
 
 
     int getAngle(){return angle;}

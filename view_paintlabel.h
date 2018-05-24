@@ -72,11 +72,11 @@ private:
 
 
 
-    //存放原子核和中子的vector
+    //存放原子核和中子的和爆炸的vector
     vector<Nuclear> NuclearList;
     vector<Neutron> NeutronList;
     vector<Atom> AtomList;
-
+    vector<Atom> ExplosiveList;
 
     //时间响应
     QTimer *timer;
