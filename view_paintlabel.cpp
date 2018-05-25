@@ -212,6 +212,12 @@ void PaintLabel::mousePressEvent(QMouseEvent *event){
 
     else if(readyToPaintArrow){
         arrowEnsure=true;
+
+        //根据箭头长度设置中子速度
+        Neutron tmp=NeutronList[0];
+        tmp.setSpeed(arrowTox,arrowToy);
+        NeutronList[0]=tmp;
+
         QMessageBox::warning(this,tr("开始"),tr("现在请按开始按钮开始实验"),QMessageBox::Ok);
     }
 

@@ -15,6 +15,10 @@ using namespace std;
 #define YUP_LIMIT 0
 #define SPLIT_NUMBER 1
 
+
+#define MAX_SPEED 20
+#define MIN_SPEED 1
+
 class Neutron:public Atom
 {
 private:
@@ -144,6 +148,7 @@ public:
         if(angle1>360)
             angle1=angle1-360;
         one.setAngle(angle1);
+        one.setSpeed(speed);
 
         Neutron two(x,y);
         double angle2=angle-30;
@@ -161,6 +166,7 @@ public:
 
     int getAngle(){return angle;}
     void setAngle(double angle){ this->angle=angle;}
+
     void setAngle(int arrowx,int arrowy)
     {
         double k= double(arrowy-y)/double(arrowx-x);
@@ -186,6 +192,17 @@ public:
     }
 
     int getSpeed(){return speed;}
+    void setSpeed(int arrowx,int arrowy)
+    {
+        int dist= sqrt(pow((x-arrowx),2)+ pow((y-arrowy),2));
+        if(dist>1000)
+            speed=MAX_SPEED;
+        else if(dist<100)
+            speed=MIN_SPEED;
+        else
+            speed= 2*dist/100;
+    }
+
     void setSpeed(int speed){this->speed=speed;}
 };
 
